@@ -1,76 +1,64 @@
-# Teste fullstack
+# Como iniciar a aplicação
 
-Leia primeiro todo o projeto, faça sua estimativa de horas para o desenvolvimento e envie um email com o título `[Teste Fullstack] Estimativa` para rh@4.events
+### Front-end
 
-Forke este projeto, faça o desenvolvimento e quando finalizar faça um PR aqui. Envie um email com o título `[Teste Fullstack] Finalizado` para rh@4.events com o link do seu PR.
-
-Se você não sabe o que é fazer um "Forke" ou um "PR", pesquise. Valorizamos muito a proatividade.
-
-**Lembre-se: atualize este README informando como instalar e executar seu projeto.**
-
-## Missão backend
-
-Desenvolver uma **API JSON RESTful** em **Node**, que utilize os métodos `GET` e `POST`.
-
-Faça o teste unitário da **API** (Bônus :star:)
-### Especificação
-
-Monte uma base de veículo com a seguinte estrutura:
-
+Abrir o terminal dentro da pasta WEB e executar o comando:
 ```
-veiculo:   string
-ano:       integer
-descricao: text
-vendido:   bool
-created:   datetime
+npm install
 ```
 
-Utilize **MongoDB** ou **MySQL** para armazenar os dados que a **API** irá consumir.
+Após a instalação das dependencias, inicie a aplicação com:
+```
+npm start
+```
 
-### API endpoints
+### Back-end
 
-`GET /veiculos`
+Abrir o terminal dentro da pasta API e executar o comando:
+```
+npm install
+```
 
-Retorna todos os veículos
+Após a instalação das dependencias, é necessário validar os dados de acesso ao banco de dados na no arquivo databaseConfig em /api/config com as credenciais do banco de dados usado, neste caso usei **MySql**, tambem é necessário criar o banco **vehicle**
 
----
+## Rotas Backend
 
-`GET /veiculos/find`
-
-Retorna os veículos de acordo com o termo passado parâmetro `q`
-
----
+`POST /veiculos/createDumyBase`
+Cria uma lista de veículos automáticamente para testes
 
 `POST /veiculos`
+Cadastra um  novo veículo 
+Payload:
+```
+{
+    "veiculo": "Supra",
+    "marca": "Toyota",
+    "cod_fipe": "038003-2",
+    "descricao": "",
+    "ano" : "2018",
+    "vendido": "false"
+}
+```
 
-Adiciona um novo veículo
+`PUT /veiculos/:id`
+Atualiza um veiculo pelo id, deve usar o mesmo **payload de criação do vehiculo**
 
+`GET /veiculos/find`
+Retorna todos os veiculos cadastrados
 
-## Missão frontend
+`GET /veiculos`
+Retorna todos os veículos
 
-Desenvolver uma **UI (User Interface)** de acordo com o desenho que está na pasta [layout]
+`GET /veiculos/find/find?vehicle=name`
+Retorna os veículos de acordo com o termo passado parâmetro query.vehicle
 
-### Especificação
+### Libs Front-End
+- Material UI - Para os icones
+- TailwindCss - FrameWork para estilização dos componentes
+- Class-names - Renderização condicional do css
+- Axios - Framework para as chamadas à api
 
-- Cross browser support (IE11+)
-- Consumir **API** criada acima
-- Criar uma tela que tenha...
-    - Listagem de veículos
-    - Busca
-    - Formulário de novo veículo
-
-### Dica
-
-Tente pensar um pouco fora da caixa;
-
-Utilizar Context API ou Redux será um diferencial;
-
-Utilize algum framework para auxiliar no desenvolvimento da interface, por exemplo:
-
-- https://getmdl.io/
-- http://getbootstrap.com/css/
-- http://foundation.zurb.com/
-
-## Dúvida
-
-Se tiver qualquer dúvida sobre esse teste, envie um email com o título `[Teste Fullstack] O assunto que vc deseja` para rh@4.events
+### Libs Beck-end
+- Mysql2 - cliente pra uso do banco de dados mysql
+- Sequelize - FrameWork ORM de banco de dados.
+- Express - Framework para criar o servidor Rest

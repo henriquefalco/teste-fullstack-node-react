@@ -1,7 +1,7 @@
 import React from 'react';
 import EditIcon from '@material-ui/icons/Edit';
 
-const Details = ({ vehicle }) => {
+const Details = ({ editModal, vehicle }) => {
     console.log(vehicle)
     return (
         <div className='p-3 m-2 bg-white rounded'>
@@ -39,7 +39,11 @@ const Details = ({ vehicle }) => {
             <hr />
 
             <div>
-                <button type='button' className='flex items-center w-32 p-2 m-2 font-semibold text-white uppercase bg-gray-600'>
+                <button
+                    className='flex items-center w-32 p-2 m-2 font-semibold text-white uppercase bg-gray-600'
+                    type='button'
+                    onClick={() => editModal(true)}
+                >
                     <EditIcon className='m-1' />
                     <span className='m-1'>editar</span>
                 </button>

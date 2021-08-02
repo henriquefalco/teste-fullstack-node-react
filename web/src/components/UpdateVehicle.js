@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import Api from '../services/Api';
 import Loader from './Loader';
 
-const AddVehicle = ({ handleCloseModal }) => {
+const AddVehicle = ({ handleCloseModal, vehicle, getVehicles }) => {
   const [screen, setScreen] = useState('addVehicle')
   const [isLoading, setIsLoading] = useState('')
   const [message, setMessage] = useState('')
 
-  const [veiculo, setVeiculo] = useState('')
-  const [marca, setMarca] = useState('')
-  const [ano, setAno] = useState(undefined)
-  const [descricao, setDescricao] = useState('')
-  const [vendido, setVendido] = useState(false)
+  const [veiculo, setVeiculo] = useState(vehicle.veiculo)
+  const [marca, setMarca] = useState(vehicle.marca)
+  const [ano, setAno] = useState(vehicle.ano)
+  const [descricao, setDescricao] = useState(vehicle.descricao)
+  const [vendido, setVendido] = useState(vehicle.vendido)
 
   const [yearMessage, setYearMessage] = useState('')
 
@@ -21,10 +21,10 @@ const AddVehicle = ({ handleCloseModal }) => {
 
   const postVehicle = (payload) => {
     Api
-      .post(`/veiculos`, payload)
+      .put(`/veiculos/${vehicle.id}`, payload)
       .then((res) => {
         setScreen('success')
-        setMessage('Veículo cadastrado com sucesso!')
+        setMessage('Veículo atualizado com sucesso!')
         setIsLoading(false)
       })
       .catch((error) => {
@@ -53,6 +53,11 @@ const AddVehicle = ({ handleCloseModal }) => {
     }
   }
 
+  const closeAndReload = () => {
+    handleCloseModal(false)
+    getVehicles()
+  }
+
   useEffect(() => {
     setMessage('')
   }, [veiculo, marca, ano, descricao])
@@ -64,6 +69,7 @@ const AddVehicle = ({ handleCloseModal }) => {
       setYearMessage('')
     }
   }, [ano])
+
 
   return isLoading ? <Loader /> : (
     <>
@@ -79,6 +85,7 @@ const AddVehicle = ({ handleCloseModal }) => {
                 <span className='font-semibold text-gray-500'> Veículo </span>
                 <input
                   className='bg-gray-200 border-b border-gray-500 outline-none'
+                  value={veiculo}
                   onChange={(e) => setVeiculo(e.target.value)}
                 />
               </div>
@@ -87,6 +94,7 @@ const AddVehicle = ({ handleCloseModal }) => {
                 <span className='font-semibold text-gray-500'> Marca </span>
                 <input
                   className='bg-gray-200 border-b border-gray-500 outline-none'
+                  value={marca}
                   onChange={(e) => setMarca(e.target.value)}
                 />
               </div>
@@ -98,6 +106,7 @@ const AddVehicle = ({ handleCloseModal }) => {
                 <input
                   onChange={(e) => setAno(e.target.value)}
                   maxLength='4'
+                  value={ano}
                   className='bg-gray-200 border-b border-gray-500 outline-none'
                 />
                 {!isNumeric.ano ?
@@ -121,6 +130,7 @@ const AddVehicle = ({ handleCloseModal }) => {
               <textarea
                 className='p-2 bg-gray-200 border-b border-gray-500 '
                 onChange={(e) => setDescricao(e.target.value)}
+                value={descricao}
                 rows="5" />
             </div>
 
@@ -132,7 +142,7 @@ const AddVehicle = ({ handleCloseModal }) => {
               className='flex items-center justify-center w-32 p-2 m-2 font-semibold text-white uppercase bg-gray-600'
               type='button'
               onClick={() => handleSubmit()}>
-              add
+              atualizar
             </button>
 
             <button
@@ -166,7 +176,7 @@ const AddVehicle = ({ handleCloseModal }) => {
           </span>
 
           <button
-            onClick={() => handleCloseModal(false)}
+            onClick={() => closeAndReload()}
             type='button'
             className='items-center justify-center w-32 p-2 m-2 text-sm font-semibold text-white uppercase bg-gray-600 rounded'>
             fechar
